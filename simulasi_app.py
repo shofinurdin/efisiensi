@@ -38,18 +38,12 @@ def load_model():
 def run_simulasi_app():
 	# data_=st.file_uploader("Upload Data Set", type=['csv'])
 	data_ = load_data('data/data_fix.csv')
-	#submenu = st.sidebar.selectbox("Submenu",['Data Awal','Normalisasi'])
 	if data_ is not None:
 		data_awal=pd.read_csv('data/data_fix.csv')
-	
-		#data_awal = load_data('data/data_fix.csv')
-
 		data_kolom = pilih_kolom(data_awal)
 		data_baru=np.array([36,4297,31733,4922,7,30,7211834457,103.06,138.82,20.07,1463,1786,185])
 		contoh=data_kolom.iloc[:1,:13]
-		# with st.expander('Data Awal'):
-		# 	#hasil_ts= minmax_scaler(data_kolom, data_kolom)
-		# 	st.dataframe(data_kolom)
+		
 
 		#with st.expander('Data Baru'):
 		st.write('Variabel Input :')
@@ -85,8 +79,6 @@ def run_simulasi_app():
 			
 		st.markdown("<hr>", unsafe_allow_html=True)
 		
-		# col1,col2=st.columns([1,1])	
-		# with col1:
 		if st.button('Proses'):
 			data = {'WP_BENDAHARA': x1,
 						'WP_BADAN': x2,
@@ -101,16 +93,13 @@ def run_simulasi_app():
 						'SP2DK_TERBIT': x11,
 						'SP2DK_CAIR': x12,
 						'PEMERIKSAAN_SELESAI': x13}
-				
-				#
+		
 			df_input=pd.DataFrame(data,index=[0])
 			st.write('inputan :')
 			st.dataframe(df_input)
 				
 			model=load('model/model_mlp.joblib')
-					
-			#hasil_minmax=minmax_scaler(data_kolom,df_input)
-
+			
 			transformer = MinMaxScaler()
 			transformer.fit_transform(data_kolom)
 			hasil_minmax = transformer.transform(df_input.iloc[:1,:])
@@ -122,10 +111,6 @@ def run_simulasi_app():
 			
 			st.dataframe(df_scal)
 			hasil_predict=model.predict(hasil_minmax)
-				# if hasil_predict[0]>1:
-				# 	st.write('Hasil prediksi nilai efisiensi : 1')
-				# else:
-				# 	st.write(f'Hasil prediksi nilai Efisiensi : {hasil_predict[0]:.2f}')
 			st.info(f'Hasil prediksi nilai Efisiensi : {round(hasil_predict[0],2):.2f}')
 			if round(hasil_predict[0],2)>1.00:
 				st.success('sudah mencapai efisien tetapi Variabel input masih bisa ditambah atau variabel output masih bisa dikurangi')
