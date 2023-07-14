@@ -55,7 +55,7 @@ def run_cl_app():
 	v_in=variabel_input(data_awal)
 	vin_scale=minmax_scaler(v_in)
 	hasil_pca=pca_scale(vin_scale)
-	submenu = st.sidebar.selectbox("Submenu",['Model Awal','Evaluasi'])
+	submenu = st.sidebar.selectbox("Submenu",['Model Awal','Hasil'])
 	if submenu == 'Model Awal':
 		
 		st.write('Model Klastering Awal')
@@ -158,12 +158,41 @@ def run_cl_app():
 			rekap_sil.columns=['Algoritma','Silhouette','DBI']
 			st.dataframe(rekap_sil.iloc[:,:2])
 
-	if submenu == 'Evaluasi':
-		st.write('Evaluasi')
+	if submenu == 'Hasil':
+		st.write('Hasil')
 
 		with st.expander('K Medoids'):
 			st.write('K Medoids')
-
+			kMedoids =KMedoids(n_clusters=2, random_state=0)
+			kMedoids.fit(vin_scale)
+			y_kmed_opt = kMedoids.fit_predict(vin_scale)
+			score=silhouette_score(vin_scale,y_kmed_opt)
+			st.write(score)
+			hasil_pca['kemdoid_opt']=y_kmed_opt
+			fig, ax = plt.subplots()
+			plt.title("K-Medoid Clustering")
+			plt.xlabel("PC1")
+			plt.ylabel("PC2")
+			scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['kemdoid_opt'])
+			legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
+			ax.add_artist(legend)
+			st.pyplot(fig)
 
 		with st.expander('Fuzzy C-Means'):
 			st.write('Fuzzy C-Means')
+			x=vin_scale.values
+			fcm_model = fuzz.cluster.cmeans(x.T, 3, 2, error=0.005, maxiter=1000)
+			# mendapatkan label klaster
+			cluster_membership = fcm_model[1]
+			labels_fuzz_opt = cluster_membership.argmax(axis=0)
+			silhouette_avg = silhouette_score(x, labels_fuzz_opt)
+			st.write(silhouette_avg)
+			hasil_pca['fcm_opt']=labels_fuzz_opt
+			fig, ax = plt.subplots()
+			plt.title("FCM Clustering")
+			plt.xlabel("PC1")
+			plt.ylabel("PC2")
+			scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['fcm_opt'])
+			legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
+			ax.add_artist(legend)
+			st.pyplot(fig)
