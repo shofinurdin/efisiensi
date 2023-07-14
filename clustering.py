@@ -66,16 +66,16 @@ def run_cl_app():
 			st.dataframe(vin_scale)
 
 
-		with st.expander('KMedoids'):
+		# with st.expander('KMedoids'):
 			
-			kmedoids=KMedoids(n_clusters=5, random_state=0).fit(vin_scale)
-			y_kmed=kmedoids.fit_predict(vin_scale)
-			silhouette_avg=silhouette_score(vin_scale,y_kmed)
-			silhouette_list.append(silhouette_avg)
-			dbi_kmed = davies_bouldin_score(vin_scale, y_kmed)
-			dbi_list.append(dbi_kmed)
-			st.write('Nilai Silhouette :{}, Nilai DBI :{}'.format(silhouette_avg,dbi_kmed))
-			hasil_pca['KMEDOIDS']=y_kmed
+		# 	kmedoids=KMedoids(n_clusters=5, random_state=0).fit(vin_scale)
+		# 	y_kmed=kmedoids.fit_predict(vin_scale)
+		# 	silhouette_avg=silhouette_score(vin_scale,y_kmed)
+		# 	silhouette_list.append(silhouette_avg)
+		# 	dbi_kmed = davies_bouldin_score(vin_scale, y_kmed)
+		# 	dbi_list.append(dbi_kmed)
+		# 	st.write('Nilai Silhouette :{}, Nilai DBI :{}'.format(silhouette_avg,dbi_kmed))
+		# 	hasil_pca['KMEDOIDS']=y_kmed
 			
 
 		# 	fig, ax = plt.subplots()
