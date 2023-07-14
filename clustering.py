@@ -15,9 +15,9 @@ from sklearn.metrics import davies_bouldin_score
 from sklearn.decomposition import PCA
 
 
-from sklearn_extra.cluster import KMedoids
+# from sklearn_extra.cluster import KMedoids
 from sklearn.cluster import OPTICS
-# import skfuzzy as fuzz
+import skfuzzy as fuzz
 from sklearn.cluster import DBSCAN
 
 
@@ -66,16 +66,16 @@ def run_cl_app():
 			st.dataframe(vin_scale)
 
 
-		with st.expander('KMedoids'):
+		# with st.expander('KMedoids'):
 			
-			kmedoids=KMedoids(n_clusters=5, random_state=0).fit(vin_scale)
-			y_kmed=kmedoids.fit_predict(vin_scale)
-			silhouette_avg=silhouette_score(vin_scale,y_kmed)
-			silhouette_list.append(silhouette_avg)
-			dbi_kmed = davies_bouldin_score(vin_scale, y_kmed)
-			dbi_list.append(dbi_kmed)
-			st.write('Nilai Silhouette :{}, Nilai DBI :{}'.format(silhouette_avg,dbi_kmed))
-			hasil_pca['KMEDOIDS']=y_kmed
+		# 	kmedoids=KMedoids(n_clusters=5, random_state=0).fit(vin_scale)
+		# 	y_kmed=kmedoids.fit_predict(vin_scale)
+		# 	silhouette_avg=silhouette_score(vin_scale,y_kmed)
+		# 	silhouette_list.append(silhouette_avg)
+		# 	dbi_kmed = davies_bouldin_score(vin_scale, y_kmed)
+		# 	dbi_list.append(dbi_kmed)
+		# 	st.write('Nilai Silhouette :{}, Nilai DBI :{}'.format(silhouette_avg,dbi_kmed))
+		# 	hasil_pca['KMEDOIDS']=y_kmed
 			
 
 		# 	fig, ax = plt.subplots()
@@ -160,37 +160,37 @@ def run_cl_app():
 	if submenu == 'Hasil':
 		st.write('Hasil')
 
-		with st.expander('K Medoids'):
-			st.write('K Medoids')
-			kMedoids =KMedoids(n_clusters=2, random_state=0)
-			kMedoids.fit(vin_scale)
-			y_kmed_opt = kMedoids.fit_predict(vin_scale)
-			score=silhouette_score(vin_scale,y_kmed_opt)
-			st.info(f'Nilai Silhouette : {round(score,2):.2f}')
-			hasil_pca['kemdoid_opt']=y_kmed_opt
-			fig, ax = plt.subplots()
-			plt.title("K-Medoid Clustering")
-			plt.xlabel("PC1")
-			plt.ylabel("PC2")
-			scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['kemdoid_opt'])
-			legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
-			ax.add_artist(legend)
-			st.pyplot(fig)
-
-		# with st.expander('Fuzzy C-Means'):
-		# 	st.write('Fuzzy C-Means')
-		# 	x=vin_scale.values
-		# 	fcm_model = fuzz.cluster.cmeans(x.T, 3, 2, error=0.005, maxiter=1000)
-		# 	cluster_membership = fcm_model[1]
-		# 	labels_fuzz_opt = cluster_membership.argmax(axis=0)
-		# 	silhouette_avg = silhouette_score(x, labels_fuzz_opt)
-		# 	st.info(f'Nilai Silhouette : {round(silhouette_avg,2):.2f}')
-		# 	hasil_pca['fcm_opt']=labels_fuzz_opt
+		# with st.expander('K Medoids'):
+		# 	st.write('K Medoids')
+		# 	kMedoids =KMedoids(n_clusters=2, random_state=0)
+		# 	kMedoids.fit(vin_scale)
+		# 	y_kmed_opt = kMedoids.fit_predict(vin_scale)
+		# 	score=silhouette_score(vin_scale,y_kmed_opt)
+		# 	st.info(f'Nilai Silhouette : {round(score,2):.2f}')
+		# 	hasil_pca['kemdoid_opt']=y_kmed_opt
 		# 	fig, ax = plt.subplots()
-		# 	plt.title("FCM Clustering")
+		# 	plt.title("K-Medoid Clustering")
 		# 	plt.xlabel("PC1")
 		# 	plt.ylabel("PC2")
-		# 	scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['fcm_opt'])
+		# 	scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['kemdoid_opt'])
 		# 	legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
 		# 	ax.add_artist(legend)
 		# 	st.pyplot(fig)
+
+		with st.expander('Fuzzy C-Means'):
+			st.write('Fuzzy C-Means')
+			x=vin_scale.values
+			fcm_model = fuzz.cluster.cmeans(x.T, 3, 2, error=0.005, maxiter=1000)
+			cluster_membership = fcm_model[1]
+			labels_fuzz_opt = cluster_membership.argmax(axis=0)
+			silhouette_avg = silhouette_score(x, labels_fuzz_opt)
+			st.info(f'Nilai Silhouette : {round(silhouette_avg,2):.2f}')
+			hasil_pca['fcm_opt']=labels_fuzz_opt
+			fig, ax = plt.subplots()
+			plt.title("FCM Clustering")
+			plt.xlabel("PC1")
+			plt.ylabel("PC2")
+			scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['fcm_opt'])
+			legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
+			ax.add_artist(legend)
+			st.pyplot(fig)
