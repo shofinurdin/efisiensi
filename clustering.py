@@ -76,7 +76,8 @@ def run_cl_app():
 			labels_fuzz = np.argmax(u, axis=0)
 			siluete_fcm = silhouette_score(x, labels_fuzz)
 			
-			st.write('Nilai Silhouette :',siluete_fcm)
+			
+			st.info(f'Nilai Silhouette : {round(siluete_fcm,2):.2f}')
 
 			silhouette_list.append(siluete_fcm)
 			hasil_pca['FCM']=labels_fuzz
