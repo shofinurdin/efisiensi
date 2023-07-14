@@ -1,6 +1,7 @@
 import streamlit as st 
 import streamlit.components.v1 as stc 
 from simulasi_app import run_simulasi_app
+from clustering import run_cl_app
 
 st.set_page_config(page_title="ML & DEA",
 		   page_icon="⚙️",
@@ -20,7 +21,7 @@ def main():
 	#st.title("ML Web App with Streamlit")
 	stc.html(html_temp)
 
-	menu = ["Home","Simulasi Prediksi"]
+	menu = ["Home","Clustering","Simulasi Prediksi"]
 	choice = st.sidebar.selectbox("Menu",menu)
 
 	if choice == "Home":
@@ -38,8 +39,8 @@ def main():
 	elif choice == "Simulasi Prediksi":
 		run_simulasi_app()
 	else:
-		st.subheader("About")
-		st.text("Prototype ini dibuat menggunakan framework streamlit dengan bahasa pemrograman python")
+		st.subheader("Clustering")
+		run_cl_app()
 		
 
 if __name__ == '__main__':
