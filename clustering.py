@@ -78,36 +78,36 @@ def run_cl_app():
 			hasil_pca['KMEDOIDS']=y_kmed
 			
 
-			fig, ax = plt.subplots()
-			scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['KMEDOIDS'])
-			legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
-			ax.add_artist(legend)
-			st.pyplot(fig)
+		# 	fig, ax = plt.subplots()
+		# 	scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['KMEDOIDS'])
+		# 	legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
+		# 	ax.add_artist(legend)
+		# 	st.pyplot(fig)
 
-		with st.expander('OPTICS'):
-			optics_model = OPTICS(min_samples=2, xi=0.5)
+		# with st.expander('OPTICS'):
+		# 	optics_model = OPTICS(min_samples=2, xi=0.5)
 
-			# Fit the model1
-			optics_model.fit(vin_scale)
+		# 	# Fit the model1
+		# 	optics_model.fit(vin_scale)
 
-			# Predict the clusters
-			labels_optic = optics_model.labels_
+		# 	# Predict the clusters
+		# 	labels_optic = optics_model.labels_
 
-			# Calculate the silhouette score
-			silhouette_optics = silhouette_score(vin_scale, labels_optic)
-			silhouette_list.append(silhouette_optics)
+		# 	# Calculate the silhouette score
+		# 	silhouette_optics = silhouette_score(vin_scale, labels_optic)
+		# 	silhouette_list.append(silhouette_optics)
 
-			dbi_opt = davies_bouldin_score(vin_scale, labels_optic)
-			dbi_list.append(dbi_opt)
+		# 	dbi_opt = davies_bouldin_score(vin_scale, labels_optic)
+		# 	dbi_list.append(dbi_opt)
 
-			hasil_pca['OPTICSS']=labels_optic
-			st.write('Nilai Silhouette',silhouette_optics)
+		# 	hasil_pca['OPTICSS']=labels_optic
+		# 	st.write('Nilai Silhouette',silhouette_optics)
 
-			fig, ax = plt.subplots()
-			scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['OPTICSS'])
-			legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
-			ax.add_artist(legend)
-			st.pyplot(fig)
+		# 	fig, ax = plt.subplots()
+		# 	scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['OPTICSS'])
+		# 	legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
+		# 	ax.add_artist(legend)
+		# 	st.pyplot(fig)
 	    
 		with st.expander('Fuzzy C-Means'):
 			#k = 5
@@ -131,31 +131,31 @@ def run_cl_app():
 			ax.add_artist(legend)
 			st.pyplot(fig)
 
-		with st.expander('DBSCAN'):
-			db = DBSCAN(eps=0.15, min_samples=5).fit(x)
-			labels_db=db.labels_
-			silhouette_score_dbscan = silhouette_score(x, db.labels_)
+		# with st.expander('DBSCAN'):
+		# 	db = DBSCAN(eps=0.15, min_samples=5).fit(x)
+		# 	labels_db=db.labels_
+		# 	silhouette_score_dbscan = silhouette_score(x, db.labels_)
 			
-			st.write('Nilai Silhouette :', silhouette_score_dbscan)
+		# 	st.write('Nilai Silhouette :', silhouette_score_dbscan)
 
-			silhouette_list.append(silhouette_score_dbscan)
+		# 	silhouette_list.append(silhouette_score_dbscan)
 
-			dbi_dbs = davies_bouldin_score(x, labels_db)
-			dbi_list.append(dbi_dbs)
+		# 	dbi_dbs = davies_bouldin_score(x, labels_db)
+		# 	dbi_list.append(dbi_dbs)
 
-			hasil_pca['DBSCAN']=labels_db
+		# 	hasil_pca['DBSCAN']=labels_db
 
-			fig, ax = plt.subplots()
-			scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['DBSCAN'])
-			legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
-			ax.add_artist(legend)
-			st.pyplot(fig)
+		# 	fig, ax = plt.subplots()
+		# 	scatter = ax.scatter(hasil_pca['Feature A'], hasil_pca['Feature B'], c=hasil_pca['DBSCAN'])
+		# 	legend = ax.legend(*scatter.legend_elements(), title="Clusters", bbox_to_anchor=(1.05, 1), loc='upper left')
+		# 	ax.add_artist(legend)
+		# 	st.pyplot(fig)
 
-		with st.expander('Hasil'):
-			judul=['KMedoids','OPTICS','FCM','DBSCAN']
-			rekap_sil=bikin_dataframe(judul,silhouette_list,dbi_list)
-			rekap_sil.columns=['Algoritma','Silhouette','DBI']
-			st.dataframe(rekap_sil.iloc[:,:2])
+		# with st.expander('Hasil'):
+		# 	judul=['KMedoids','OPTICS','FCM','DBSCAN']
+		# 	rekap_sil=bikin_dataframe(judul,silhouette_list,dbi_list)
+		# 	rekap_sil.columns=['Algoritma','Silhouette','DBI']
+		# 	st.dataframe(rekap_sil.iloc[:,:2])
 
 	if submenu == 'Hasil':
 		st.write('Hasil')
